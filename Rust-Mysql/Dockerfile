@@ -11,15 +11,15 @@ ARG RUST_APP
 # create project, copy dependencies and build with default src
 RUN USER=root cargo new ${RUST_APP}
 WORKDIR /${RUST_APP}
-COPY ./Cargo.toml ./Cargo.toml
+COPY Cargo.toml Cargo.toml
 RUN cargo build --release
 
-# delete src, triggers layer with compiled dependencies
-RUN rm src/*.rs
+# delete src and build files, triggers layer with compiled dependencies
+RUN rm -r src
+RUN rm target/release/deps/${RUST_APP}*
 
-# copy program code, delete old binary and rebuild
-ADD . ./
-RUN rm ./target/release/${RUST_APP}
+# copy program code and rebuild
+ADD src src
 RUN cargo build --release
 
 ###########

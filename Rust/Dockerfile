@@ -11,15 +11,15 @@ ARG RUST_APP
 # create project, copy dependencies and build with default src
 RUN USER=root cargo new ${RUST_APP}
 WORKDIR /${RUST_APP}
-COPY ./Cargo.toml ./Cargo.toml
+COPY Cargo.toml Cargo.toml
 RUN cargo build --release
 
-# delete src, triggers layer with compiled dependencies
-RUN rm src/*.rs
+# delete src and build files, triggers layer with compiled dependencies
+RUN rm -r src
+RUN rm target/release/deps/${RUST_APP}*
 
-# copy program code, delete old binary and rebuild
-ADD . ./
-RUN rm ./target/release/${RUST_APP}
+# copy program code and rebuild
+ADD src src
 RUN cargo build --release
 
 ###########
@@ -31,8 +31,10 @@ ARG RUST_APP
 # location of the program
 ARG APP=/usr/src/rust_program
 
-RUN apt-get update \
-    && rm -rf /var/lib/apt/lists/*
+# openssl for rust mysql crate
+RUN apt-get update && \
+    apt-get install openssl -y && \ 
+    rm -rf /var/lib/apt/lists/*
 
 # create non-root user to run program
 ENV APP_USER=rust_user
