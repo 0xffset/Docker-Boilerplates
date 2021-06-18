@@ -31,8 +31,10 @@ ARG RUST_APP
 # location of the program
 ARG APP=/usr/src/rust_program
 
-RUN apt-get update \
-    && rm -rf /var/lib/apt/lists/*
+# openssl for rust mysql crate
+RUN apt-get update && \
+    apt-get install openssl -y && \ 
+    rm -rf /var/lib/apt/lists/*
 
 # create non-root user to run program
 ENV APP_USER=rust_user
