@@ -12,12 +12,18 @@ fn main() {
 
     let url = format!("mysql://{}:{}@{}:3306/{}", USER, PASS, HOST, DB);
     let mut pool = None;
-    
+
     // try to connect 5 times with 5s delay to compensate for mysql startup time
-    for _ in 0..5 {
+    for i in 0..5 {
         match Pool::new(url.clone()) {
-            Ok(p) => pool = Some(p),
-            _ => sleep(time::Duration::from_secs(5)),
+            Ok(p) => {
+                pool = Some(p);
+                break;
+            }
+            _ => {
+                println!("({}) Failed to connect, retrying...", i);
+                sleep(time::Duration::from_secs(5));
+            }
         }
     }
 
