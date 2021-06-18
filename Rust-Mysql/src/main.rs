@@ -12,6 +12,8 @@ fn main() {
 
     let url = format!("mysql://{}:{}@{}:3306/{}", USER, PASS, HOST, DB);
     let mut pool = None;
+    
+    // try to connect 5 times with 5s delay to compensate for mysql startup time
     for _ in 0..5 {
         match Pool::new(url.clone()) {
             Ok(p) => pool = Some(p),
@@ -21,10 +23,10 @@ fn main() {
 
     match pool {
         Some(pool) => match pool.get_conn() {
-            Ok(_) => println!("Successfully connected to DB"),
-            Err(e) => println!("{:?}", e)
-        }
+            Ok(_) => println!("Successfully connected to DB!"),
+            Err(e) => println!("{:?}", e),
+        },
 
-        None => todo!(),
+        None => println!("Couldn't connect to DB!"),
     }
 }
