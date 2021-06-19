@@ -1,6 +1,3 @@
-# variable of the project name (defined in Cargo.toml)
-ARG RUST_APP=rust_app
-
 ################
 # Build system #
 ################
@@ -24,9 +21,6 @@ RUN rm target/release/deps/${RUST_APP}*
 # copy program code and rebuild
 ADD . .
 
-# diesel db url env
-ENV DATABASE_URL ${DB_URL}
-RUN diesel setup
 RUN cargo build --release
 
 ###########
@@ -35,12 +29,11 @@ RUN cargo build --release
 FROM debian:buster-slim
 # use the global variable
 ARG RUST_APP
-# location of the program
-ARG APP=/usr/src/rust_program
+ARG DB_URL
+ARG APP
 
-# openssl for rust mysql crate
 RUN apt-get update && \
-    apt-get install openssl -y && \ 
+    apt-get install libmariadb3 -y  && \
     rm -rf /var/lib/apt/lists/*
 
 # create non-root user to run program
@@ -49,7 +42,15 @@ RUN groupadd $APP_USER \
     && useradd -g $APP_USER $APP_USER \
     && mkdir -p ${APP}
 
+# copy program
 COPY --from=builder /${RUST_APP}/target/release/${RUST_APP} ${APP}/program
+
+# copy diesel related stuff
+COPY --from=builder /usr/local/cargo/bin/diesel ${APP}/diesel
+COPY --from=builder /${RUST_APP}/Cargo.toml ${APP}/Cargo.toml
+
+# copy wait-for-it.sh 
+COPY --from=builder /${RUST_APP}/wait-for-it.sh ${APP}/wfi.sh
 
 RUN chown -R $APP_USER:$APP_USER ${APP}
 USER $APP_USER
@@ -57,4 +58,3 @@ WORKDIR ${APP}
 
 # diesel db url env
 ENV DATABASE_URL ${DB_URL}
-CMD ["./program"]

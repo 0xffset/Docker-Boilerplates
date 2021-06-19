@@ -12,6 +12,7 @@ fn main() {
 
     let mut mysql_connection = None;
 
+    // try to connect 5 times with 5s delay to compensate for mysql startup time
     for i in 0..5 {
         match MysqlConnection::establish(&database_url) {
             Ok(conn) => {
@@ -29,4 +30,6 @@ fn main() {
         Some(_) => println!("Successfully connected to DB!"),
         None => println!("Couldn't connect to DB!")
     }
+
+    sleep(time::Duration::from_secs(50000));
 }
