@@ -8,18 +8,26 @@ services:
         environment: 
             MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DB}
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
 
     program:
         build: 
             context: .
             args:
                 RUST_APP: ${RUST_APP}
+                DB_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DB}
+        depends_on: 
+            mysql:
+                condition: service_healthy
+        restart: on-failure
         environment: 
             MYSQL_HOST: ${MYSQL_HOST}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_DB: ${MYSQL_DB}
-            DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DB}
 
 volumes: 
     mysql_data:

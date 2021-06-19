@@ -5,17 +5,13 @@ use std::{env, thread::sleep};
 fn main() {
     println!("Rust-Mysql docker image boilerplate!");
 
-    let USER: String = env::var("MYSQL_USER").unwrap();
-    let PASS: String = env::var("MYSQL_PASSWORD").unwrap();
-    let HOST: String = env::var("MYSQL_HOST").unwrap();
-    let DB: String = env::var("MYSQL_DB").unwrap();
+    let database_url: String = env::var("DATABASE_URL").unwrap();
 
-    let url = format!("mysql://{}:{}@{}:3306/{}", USER, PASS, HOST, DB);
     let mut pool = None;
 
     // try to connect 5 times with 5s delay to compensate for mysql startup time
     for i in 0..5 {
-        match Pool::new(url.clone()) {
+        match Pool::new(database_url.clone()) {
             Ok(p) => {
                 pool = Some(p);
                 break;

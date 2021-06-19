@@ -1,6 +1,3 @@
-# variable of the project name (defined in Cargo.toml)
-ARG RUST_APP=rust_app
-
 ################
 # Build system #
 ################
@@ -19,7 +16,7 @@ RUN rm -r src
 RUN rm target/release/deps/${RUST_APP}*
 
 # copy program code and rebuild
-ADD src src
+ADD . .
 RUN cargo build --release
 
 ###########
