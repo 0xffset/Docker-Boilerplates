@@ -16,12 +16,6 @@ services:
                 RUST_APP: ${RUST_APP}
                 DB_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DB}
                 APP: ${APP_LOCATION}
-        command: bash -c "bash ./wfi.sh mysql:3306 -q -- ${APP_LOCATION}/diesel setup && ${APP_LOCATION}/program"
-        environment: 
-            MYSQL_HOST: ${MYSQL_HOST}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_DB: ${MYSQL_DB}
 
 volumes: 
     mysql_data:

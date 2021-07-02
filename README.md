@@ -6,4 +6,4 @@
 ### Docker configs available:
 - [Rust](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust)
 - [Rust-Mysql](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust-Mysql)
-- [Rust-Diesel](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust-Diesel) (still in development)
+- [Rust-Diesel](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust-Diesel) 
