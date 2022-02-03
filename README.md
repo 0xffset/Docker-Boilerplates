@@ -4,6 +4,6 @@
 - `RUST_APP` must be the same as your projects name in the `Cargo.toml` file
 
 ### Docker configs available:
-- [Rust](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust)
-- [Rust-Mysql](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust-Mysql)
-- [Rust-Diesel](https://github.com/0xffset/Docker-Boilerplates/tree/master/Rust-Diesel) 
+- [Rust](https://github.com/0xffset/Docker-Boilerplates/tree/main/Rust)
+- [Rust-Mysql](https://github.com/0xffset/Docker-Boilerplates/tree/main/Rust-Mysql)
+- [Rust-Diesel](https://github.com/0xffset/Docker-Boilerplates/tree/main/Rust-Diesel) 
