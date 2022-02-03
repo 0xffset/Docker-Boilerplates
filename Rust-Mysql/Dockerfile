@@ -9,6 +9,8 @@ ARG RUST_APP
 RUN USER=root cargo new ${RUST_APP}
 WORKDIR /${RUST_APP}
 COPY Cargo.toml Cargo.toml
+COPY Cargo.lock Cargo.lock
+
 RUN cargo build --release
 
 # delete src and build files, triggers layer with compiled dependencies
@@ -17,6 +19,7 @@ RUN rm target/release/deps/${RUST_APP}*
 
 # copy program code and rebuild
 ADD . .
+
 RUN cargo build --release
 
 ###########
