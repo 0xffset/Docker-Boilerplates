@@ -2,12 +2,18 @@ version: "3.8"
 
 services:
     mysql:
-        image: mysql:5.7
-        volumes: 
-            - mysql_data:/var/lib/mysql
-        environment: 
-            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_DATABASE: ${MYSQL_DB}
+        image: mysql:latest
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+          - ${PORT}:3306
+        expose:
+          - ${PORT}
+        volumes:
+          - mysql-data:${DATA_DIR}
 
     program:
         build: 
@@ -17,5 +23,5 @@ services:
         environment: 
             DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DB}
 
-volumes: 
-    mysql_data:
+volumes:
+    mysql-data:
