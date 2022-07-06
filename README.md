@@ -7,3 +7,4 @@
 - [Rust](https://github.com/0xffset/Docker-Boilerplates/tree/main/Rust)
 - [Rust-Mysql](https://github.com/0xffset/Docker-Boilerplates/tree/main/Rust-Mysql)
 - [Rust-Diesel](https://github.com/0xffset/Docker-Boilerplates/tree/main/Rust-Diesel) 
+- [MySQL](https://github.com/0xffset/Docker-Boilerplates/tree/main/MySQL)
